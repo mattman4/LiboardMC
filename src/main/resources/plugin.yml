@@ -1,0 +1,9 @@
+name: LiboardMC
+version: '${project.version}'
+main: org.limc.liboardmc.LiboardMC
+api-version: '1.20'
+authors: [mattman, sensei_whoop]
+description: Play lichess games from Minecraft
+commands:
+  start:
+    description: Sends game invite

@@ -48,7 +48,12 @@ public class ChessBot {
                     }
                     lastMove.setValue(input);
                     client.bot().move(id, lastMove.getValue());
-                    spawnMobs(player.getWorld(), client.games().ongoing(1).stream().toList().get(0).fen());
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            spawnMobs(player.getWorld(), client.games().ongoing(1).stream().toList().get(0).fen());
+                        }
+                    }.runTask(plugin);
                     return Collections.emptyList();
                 })
                 .build();
@@ -117,7 +122,7 @@ public class ChessBot {
         for (Entity entity : world.getEntities()) {
             if (entity.getUniqueId().equals(id)) return entity;
         }
-        Bukkit.broadcastMessage("Couldn't find entity");
+        //Bukkit.broadcastMessage("Couldn't find entity");
         return null;
     }
 
@@ -158,7 +163,9 @@ public class ChessBot {
         String[] ranks = positions.split("/");
 
         for(UUID id : mobs) {
-            getEntityByUUID(world, id).remove();
+            for (Entity entity : world.getEntities()) {
+                if (entity.getUniqueId().equals(id)) entity.remove();
+            }
         }
         mobs.clear();
 
@@ -186,7 +193,8 @@ public class ChessBot {
 
                 Entity entity = world.spawnEntity(loc, type);
                 ((LivingEntity)entity).setAI(false);
-                Bukkit.broadcastMessage("spawned " + entity.getType().toString() + " at " + loc.getX() + "/" + loc.getY() + "/" + loc.getZ());
+                entity.setInvulnerable(true);
+                //Bukkit.broadcastMessage("spawned " + entity.getType().toString() + " at " + loc.getX() + "/" + loc.getY() + "/" + loc.getZ());
                 mobs.add(entity.getUniqueId());
 
 

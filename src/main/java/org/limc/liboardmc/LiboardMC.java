@@ -8,7 +8,7 @@ public final class LiboardMC extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        bot = new ChessBot(this, "lip_KREEuaoGjC7QnwP0GZlq");
+        bot = new ChessBot(this, "token");
         getCommand("start").setExecutor(new StartCommand(this));
     }
 
